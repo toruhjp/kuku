@@ -1,0 +1,542 @@
+/* ========================================
+   九九の練習 - Styles
+   Dark Mode, Landscape-First Design
+   ======================================== */
+
+/* CSS Variables - Dark Mode Design System */
+:root {
+  /* Background */
+  --bg-primary: #0a0a0a;
+  --bg-secondary: #1a1a1a;
+  --bg-overlay: rgba(0, 0, 0, 0.95);
+  
+  /* Text */
+  --text-primary: #ffffff;
+  --text-secondary: #b0b0b0;
+  --text-muted: #808080;
+  
+  /* Accent Colors */
+  --accent-primary: #4a9eff;
+  --accent-success: #4ade80;
+  --accent-error: #f87171;
+  --accent-warning: #fbbf24;
+  
+  /* Interactive */
+  --btn-primary-bg: #4a9eff;
+  --btn-primary-hover: #3182ce;
+  --btn-secondary-bg: #374151;
+  --btn-secondary-hover: #4b5563;
+  
+  /* Typography Scale */
+  --font-base: 16px;
+  --font-question: 3.5rem;
+  --font-countdown: 6rem;
+  --font-completion: 8rem;
+  --font-button: 1.5rem;
+  --font-input: 2rem;
+  --font-label: 1.25rem;
+  --font-progress: 1.5rem;
+}
+
+/* Reset & Base Styles */
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+body {
+  font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", "Hiragino Sans", 
+               "Yu Gothic", sans-serif;
+  font-size: var(--font-base);
+  background-color: var(--bg-primary);
+  color: var(--text-primary);
+  line-height: 1.5;
+  overflow: hidden;
+}
+
+/* ========================================
+   Orientation Enforcement Overlay
+   ======================================== */
+
+.overlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100vw;
+  height: 100vh;
+  background-color: var(--bg-overlay);
+  display: none;
+  justify-content: center;
+  align-items: center;
+  z-index: 9999;
+}
+
+.overlay-content {
+  text-align: center;
+}
+
+.rotate-icon {
+  font-size: 5rem;
+  margin-bottom: 1rem;
+  animation: rotate 2s ease-in-out infinite;
+}
+
+@keyframes rotate {
+  0%, 100% {
+    transform: rotate(0deg);
+  }
+  50% {
+    transform: rotate(90deg);
+  }
+}
+
+.rotate-message {
+  font-size: 2rem;
+  color: var(--text-primary);
+  font-weight: bold;
+}
+
+/* Show overlay in portrait mode */
+@media (orientation: portrait) {
+  #orientation-overlay {
+    display: flex !important;
+  }
+  #app-container {
+    display: none !important;
+  }
+}
+
+/* Show app in landscape mode */
+@media (orientation: landscape) {
+  #orientation-overlay {
+    display: none !important;
+  }
+  #app-container {
+    display: flex !important;
+  }
+}
+
+/* ========================================
+   Main App Container
+   ======================================== */
+
+.app {
+  width: 100vw;
+  height: 100vh;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  padding: 1rem;
+}
+
+/* ========================================
+   Screen Management
+   ======================================== */
+
+.screen {
+  display: none;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  width: 100%;
+  height: 100%;
+  opacity: 0;
+  transition: opacity 0.3s ease-in-out;
+}
+
+.screen.active {
+  display: flex;
+  opacity: 1;
+}
+
+/* ========================================
+   Selection Screen
+   ======================================== */
+
+#selection-screen {
+  gap: 1.5rem;
+}
+
+.title {
+  font-size: 2.5rem;
+  font-weight: bold;
+  color: var(--accent-primary);
+  margin-bottom: 0.5rem;
+}
+
+.instruction {
+  font-size: var(--font-label);
+  color: var(--text-secondary);
+  margin-bottom: 1rem;
+}
+
+.factor-grid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 1rem;
+  width: 100%;
+  max-width: 600px;
+}
+
+.factor-checkbox {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 0.75rem 1rem;
+  background-color: var(--bg-secondary);
+  border: 2px solid transparent;
+  border-radius: 8px;
+  cursor: pointer;
+  transition: all 0.2s ease;
+  min-height: 44px;
+  user-select: none;
+  -webkit-tap-highlight-color: transparent;
+}
+
+.factor-checkbox:hover {
+  background-color: #2a2a2a;
+  border-color: var(--accent-primary);
+}
+
+.factor-checkbox input[type="checkbox"] {
+  margin-right: 0.5rem;
+  width: 20px;
+  height: 20px;
+  cursor: pointer;
+}
+
+.factor-checkbox input[type="checkbox"]:checked + .factor-label {
+  color: var(--accent-primary);
+  font-weight: bold;
+}
+
+.factor-label {
+  font-size: var(--font-label);
+  color: var(--text-primary);
+  cursor: pointer;
+}
+
+.error-message {
+  color: var(--accent-error);
+  font-size: var(--font-label);
+  min-height: 1.5rem;
+  text-align: center;
+}
+
+/* ========================================
+   Countdown Screen
+   ======================================== */
+
+#countdown-screen {
+  justify-content: center;
+  align-items: center;
+}
+
+.countdown {
+  font-size: var(--font-countdown);
+  font-weight: bold;
+  color: var(--accent-primary);
+  animation: pulse 0.5s ease-in-out;
+}
+
+@keyframes pulse {
+  0% {
+    transform: scale(0.8);
+    opacity: 0;
+  }
+  50% {
+    transform: scale(1.1);
+  }
+  100% {
+    transform: scale(1);
+    opacity: 1;
+  }
+}
+
+/* ========================================
+   Question Screen
+   ======================================== */
+
+#question-screen {
+  gap: 1.5rem;
+  position: relative;
+}
+
+.progress {
+  position: absolute;
+  top: 1rem;
+  right: 1rem;
+  font-size: var(--font-progress);
+  color: var(--text-secondary);
+  font-weight: bold;
+}
+
+.question {
+  font-size: var(--font-question);
+  font-weight: bold;
+  color: var(--text-primary);
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  margin: 2rem 0;
+}
+
+.operator {
+  color: var(--accent-primary);
+}
+
+.particle {
+  font-size: 2.5rem;
+  color: var(--text-secondary);
+}
+
+.particle.hidden {
+  display: none;
+}
+
+.question-mark {
+  color: var(--accent-warning);
+}
+
+.answer-area {
+  width: 100%;
+  max-width: 300px;
+}
+
+.answer-input {
+  width: 100%;
+  min-height: 60px;
+  font-size: var(--font-input);
+  padding: 0.5rem 1rem;
+  text-align: center;
+  background-color: var(--bg-secondary);
+  border: 2px solid var(--accent-primary);
+  border-radius: 8px;
+  color: var(--text-primary);
+  outline: none;
+  transition: border-color 0.2s ease;
+}
+
+.answer-input:focus {
+  border-color: var(--accent-warning);
+  box-shadow: 0 0 0 3px rgba(74, 158, 255, 0.3);
+}
+
+.answer-input::placeholder {
+  color: var(--text-muted);
+}
+
+/* Remove number input spinners */
+.answer-input::-webkit-outer-spin-button,
+.answer-input::-webkit-inner-spin-button {
+  -webkit-appearance: none;
+  margin: 0;
+}
+
+.answer-input[type="number"] {
+  -moz-appearance: textfield;
+}
+
+.controls {
+  display: flex;
+  gap: 1rem;
+  width: 100%;
+  max-width: 400px;
+}
+
+.feedback {
+  font-size: 2rem;
+  font-weight: bold;
+  min-height: 3rem;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  opacity: 0;
+  transform: translateY(-10px);
+}
+
+.feedback.show {
+  animation: fadeInSlide 0.3s ease-in-out forwards;
+}
+
+.feedback.correct {
+  color: var(--accent-success);
+}
+
+.feedback.incorrect {
+  color: var(--accent-error);
+}
+
+@keyframes fadeInSlide {
+  from {
+    opacity: 0;
+    transform: translateY(-10px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+#next-button {
+  display: none;
+  margin-top: 1rem;
+}
+
+#next-button.show {
+  display: inline-flex;
+}
+
+/* ========================================
+   Completion Screen
+   ======================================== */
+
+#completion-screen {
+  gap: 2rem;
+}
+
+.completion-mark {
+  font-size: var(--font-completion);
+  font-weight: bold;
+  color: var(--accent-success);
+  animation: scaleIn 0.5s ease-out;
+}
+
+@keyframes scaleIn {
+  from {
+    transform: scale(0);
+    opacity: 0;
+  }
+  to {
+    transform: scale(1);
+    opacity: 1;
+  }
+}
+
+.completion-message {
+  font-size: 2.5rem;
+  font-weight: bold;
+  color: var(--text-primary);
+}
+
+.final-count {
+  font-size: var(--font-progress);
+  color: var(--text-secondary);
+}
+
+/* ========================================
+   Buttons
+   ======================================== */
+
+.btn {
+  min-height: 44px;
+  min-width: 44px;
+  padding: 0.75rem 1.5rem;
+  font-size: var(--font-button);
+  font-weight: bold;
+  border: none;
+  border-radius: 8px;
+  cursor: pointer;
+  transition: all 0.2s ease;
+  user-select: none;
+  -webkit-tap-highlight-color: transparent;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.btn:active {
+  transform: scale(0.95);
+}
+
+.btn:focus {
+  outline: 2px solid var(--accent-warning);
+  outline-offset: 2px;
+}
+
+.btn-primary {
+  background-color: var(--btn-primary-bg);
+  color: var(--text-primary);
+}
+
+.btn-primary:hover {
+  background-color: var(--btn-primary-hover);
+}
+
+.btn-primary:disabled {
+  background-color: var(--bg-secondary);
+  color: var(--text-muted);
+  cursor: not-allowed;
+}
+
+.btn-primary:disabled:active {
+  transform: none;
+}
+
+.btn-secondary {
+  background-color: var(--btn-secondary-bg);
+  color: var(--text-primary);
+  flex: 1;
+}
+
+.btn-secondary:hover {
+  background-color: var(--btn-secondary-hover);
+}
+
+.btn-next {
+  background-color: var(--accent-success);
+  color: var(--text-primary);
+  font-size: 1.75rem;
+  padding: 1rem 2rem;
+}
+
+.btn-next:hover {
+  background-color: #22c55e;
+}
+
+/* ========================================
+   Responsive Adjustments
+   ======================================== */
+
+/* Very small landscape screens */
+@media (max-height: 375px) and (orientation: landscape) {
+  :root {
+    --font-question: 2.5rem;
+    --font-countdown: 4rem;
+    --font-completion: 6rem;
+  }
+  
+  .screen {
+    gap: 0.75rem;
+  }
+  
+  .question {
+    margin: 1rem 0;
+  }
+}
+
+/* Larger landscape screens (tablets) */
+@media (min-width: 1024px) and (orientation: landscape) {
+  :root {
+    --font-question: 4rem;
+    --font-countdown: 8rem;
+    --font-completion: 10rem;
+  }
+  
+  .factor-grid {
+    max-width: 800px;
+  }
+}
+
+/* ========================================
+   Utility Classes
+   ======================================== */
+
+.hidden {
+  display: none !important;
+}
+
+.show {
+  display: block !important;
+}

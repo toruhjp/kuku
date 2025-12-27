@@ -1,0 +1,125 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>九九の練習</title>
+  <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+  <!-- Orientation Enforcement Overlay -->
+  <div id="orientation-overlay" class="overlay">
+    <div class="overlay-content">
+      <p class="rotate-icon">📱 ↻</p>
+      <p class="rotate-message">横向きにしてね</p>
+    </div>
+  </div>
+
+  <!-- Main App Container (hidden in portrait) -->
+  <main id="app-container" class="app">
+    
+    <!-- Selection Screen -->
+    <section id="selection-screen" class="screen active">
+      <h1 class="title">九九の練習</h1>
+      <div class="instruction">練習したい段を選んでね</div>
+      
+      <div class="factor-grid">
+        <label class="factor-checkbox">
+          <input type="checkbox" value="1">
+          <span class="factor-label">1の段</span>
+        </label>
+        <label class="factor-checkbox">
+          <input type="checkbox" value="2">
+          <span class="factor-label">2の段</span>
+        </label>
+        <label class="factor-checkbox">
+          <input type="checkbox" value="3">
+          <span class="factor-label">3の段</span>
+        </label>
+        <label class="factor-checkbox">
+          <input type="checkbox" value="4">
+          <span class="factor-label">4の段</span>
+        </label>
+        <label class="factor-checkbox">
+          <input type="checkbox" value="5">
+          <span class="factor-label">5の段</span>
+        </label>
+        <label class="factor-checkbox">
+          <input type="checkbox" value="6">
+          <span class="factor-label">6の段</span>
+        </label>
+        <label class="factor-checkbox">
+          <input type="checkbox" value="7">
+          <span class="factor-label">7の段</span>
+        </label>
+        <label class="factor-checkbox">
+          <input type="checkbox" value="8">
+          <span class="factor-label">8の段</span>
+        </label>
+        <label class="factor-checkbox">
+          <input type="checkbox" value="9">
+          <span class="factor-label">9の段</span>
+        </label>
+      </div>
+      
+      <button id="start-button" class="btn btn-primary">スタート</button>
+      <div id="selection-error" class="error-message"></div>
+    </section>
+
+    <!-- Countdown Screen -->
+    <section id="countdown-screen" class="screen">
+      <div id="countdown-number" class="countdown">3</div>
+    </section>
+
+    <!-- Question Screen -->
+    <section id="question-screen" class="screen">
+      <!-- Progress Indicator -->
+      <div id="progress-display" class="progress">0 / 0</div>
+      
+      <!-- Question Display -->
+      <div id="question-display" class="question">
+        <span id="first-factor">2</span>
+        <span class="operator">×</span>
+        <span id="second-factor">3</span>
+        <span id="particle" class="particle">(が)</span>
+        <span class="question-mark">？</span>
+      </div>
+      
+      <!-- Answer Input Area -->
+      <div class="answer-area">
+        <input 
+          type="number" 
+          id="answer-input" 
+          inputmode="numeric"
+          pattern="\d*"
+          placeholder="答え"
+          class="answer-input"
+        >
+      </div>
+      
+      <!-- Control Buttons -->
+      <div class="controls">
+        <button id="clear-button" class="btn btn-secondary">消す</button>
+        <button id="submit-button" class="btn btn-primary">進む</button>
+      </div>
+      
+      <!-- Feedback Display -->
+      <div id="feedback-display" class="feedback"></div>
+      
+      <!-- Next Button (shown after answer) -->
+      <button id="next-button" class="btn btn-next">つぎへ</button>
+    </section>
+
+    <!-- Completion Screen -->
+    <section id="completion-screen" class="screen">
+      <div class="completion-mark">○</div>
+      <div class="completion-message">よくできました！</div>
+      <div id="final-count" class="final-count">27/27 done</div>
+      <button id="restart-button" class="btn btn-primary">もういちど</button>
+    </section>
+    
+  </main>
+
+  <script src="app.js"></script>
+</body>
+</html>
