@@ -47,12 +47,15 @@
 
 body {
   font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", "Hiragino Sans", 
-               "Yu Gothic", sans-serif;
+                "Yu Gothic", sans-serif;
   font-size: var(--font-base);
   background-color: var(--bg-primary);
   color: var(--text-primary);
   line-height: 1.5;
-  overflow: hidden;
+  /* Allow vertical scrolling so content like the selection grid and start button
+     remain reachable on small/mobile screens while preventing horizontal scrollbars */
+  overflow-x: hidden;
+  overflow-y: auto;
 }
 
 /* ========================================
