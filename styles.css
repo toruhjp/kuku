@@ -409,15 +409,6 @@ body {
   }
 }
 
-#next-button {
-  display: none;
-  margin-top: 1rem;
-}
-
-#next-button.show {
-  display: inline-flex;
-}
-
 /* ========================================
    Completion Screen
    ======================================== */
@@ -512,17 +503,6 @@ body {
 
 .btn-secondary:hover {
   background-color: var(--btn-secondary-hover);
-}
-
-.btn-next {
-  background-color: var(--accent-success);
-  color: var(--text-primary);
-  font-size: 1.75rem;
-  padding: 1rem 2rem;
-}
-
-.btn-next:hover {
-  background-color: #22c55e;
 }
 
 /* ========================================

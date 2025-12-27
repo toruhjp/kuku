@@ -265,10 +265,8 @@ function displayQuestion(question) {
   gameState.currentAnswer = '';
   updateAnswerDisplay();
   
-  // Hide next button and clear feedback
-  const nextButton = document.getElementById('next-button');
+  // Clear feedback
   const feedbackDisplay = document.getElementById('feedback-display');
-  if (nextButton) nextButton.classList.remove('show');
   if (feedbackDisplay) {
     feedbackDisplay.textContent = '';
     feedbackDisplay.classList.remove('show', 'correct', 'incorrect');
@@ -277,6 +275,12 @@ function displayQuestion(question) {
   // Show dialpad (ensure it's visible for new question)
   const dialpad = document.getElementById('dialpad');
   if (dialpad) dialpad.classList.remove('hidden');
+  
+  // Restore submit and clear buttons (hidden after previous answer submission)
+  const submitButton = document.getElementById('submit-button');
+  const clearButton = document.getElementById('clear-button');
+  if (submitButton) submitButton.classList.remove('hidden');
+  if (clearButton) clearButton.classList.remove('hidden');
 }
 
 /**
@@ -288,27 +292,21 @@ function displayFeedback(message, isCorrect) {
     feedbackDisplay.textContent = message;
     feedbackDisplay.classList.add('show', isCorrect ? 'correct' : 'incorrect');
   }
-  
-  // Show next button
-  const nextButton = document.getElementById('next-button');
-  if (nextButton) {
-    nextButton.classList.add('show');
-  }
 
-  // Hide answer-related buttons after submission to guide user to "つぎへ"
+  // Hide answer-related buttons after submission
   const submitButton = document.getElementById('submit-button');
   const clearButton = document.getElementById('clear-button');
   if (submitButton) submitButton.classList.add('hidden');
   if (clearButton) clearButton.classList.add('hidden');
   
-  // Start auto-advance timer (3 seconds)
+  // Start auto-advance timer (700ms)
   if (gameState.autoAdvanceTimerId) {
     clearTimeout(gameState.autoAdvanceTimerId);
   }
   
   gameState.autoAdvanceTimerId = setTimeout(() => {
     handleNextQuestion();
-  }, 3000);
+  }, 700);
 }
 
 /**
@@ -490,11 +488,6 @@ function initApp() {
   const clearButton = document.getElementById('clear-button');
   if (clearButton) {
     clearButton.addEventListener('click', handleClearClick);
-  }
-  
-  const nextButton = document.getElementById('next-button');
-  if (nextButton) {
-    nextButton.addEventListener('click', handleNextQuestion);
   }
   
   const restartButton = document.getElementById('restart-button');
