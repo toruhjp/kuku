@@ -21,6 +21,9 @@ const gameState = {
     correctAnswer: null
   },
   
+  // Dialpad answer tracking
+  currentAnswer: '',
+  
   // Tracking
   combinationCounts: {},
   answeredCombinations: new Set(),
@@ -148,7 +151,58 @@ function formatFeedback(isCorrect, correctAnswer) {
 }
 
 // ========================================
-// 4. UI Controller
+// 4. Dialpad Controller
+// ========================================
+
+/**
+ * Update answer display with current answer
+ */
+function updateAnswerDisplay() {
+  const answerDisplay = document.getElementById('answer-display');
+  if (answerDisplay) {
+    answerDisplay.textContent = gameState.currentAnswer;
+  }
+}
+
+/**
+ * Handle digit button click
+ */
+function handleDialpadDigit(digit) {
+  // Max 2 digits (max answer is 81)
+  if (gameState.currentAnswer.length < 2) {
+    gameState.currentAnswer += digit;
+    updateAnswerDisplay();
+  }
+}
+
+/**
+ * Handle clear button click (for dialpad)
+ */
+function handleDialpadClear() {
+  gameState.currentAnswer = '';
+  updateAnswerDisplay();
+}
+
+/**
+ * Handle submit from dialpad
+ */
+function handleDialpadSubmit() {
+  if (!gameState.currentAnswer) {
+    return; // Don't submit empty answer
+  }
+  
+  const result = validateAnswer(
+    gameState.currentAnswer,
+    gameState.currentQuestion.firstFactor,
+    gameState.currentQuestion.secondFactor
+  );
+  
+  displayFeedback(result.message, result.correct);
+  updateProgressDisplay();
+}
+
+// ========================================
+// 5. UI Controller
 // ========================================
 
 /**
@@ -207,12 +261,9 @@ function displayQuestion(question) {
   // Update progress
   updateProgressDisplay();
   
-  // Clear answer field and feedback
-  const answerInput = document.getElementById('answer-input');
-  if (answerInput) {
-    answerInput.value = '';
-    answerInput.focus();
-  }
+  // Clear current answer and update display
+  gameState.currentAnswer = '';
+  updateAnswerDisplay();
   
   // Hide next button and clear feedback
   const nextButton = document.getElementById('next-button');
@@ -223,11 +274,9 @@ function displayQuestion(question) {
     feedbackDisplay.classList.remove('show', 'correct', 'incorrect');
   }
 
-  // Restore visibility of answer-related buttons for new question
-  const submitButton = document.getElementById('submit-button');
-  const clearButton = document.getElementById('clear-button');
-  if (submitButton) submitButton.classList.remove('hidden');
-  if (clearButton) clearButton.classList.remove('hidden');
+  // Show dialpad (ensure it's visible for new question)
+  const dialpad = document.getElementById('dialpad');
+  if (dialpad) dialpad.classList.remove('hidden');
 }
 
 /**
@@ -343,24 +392,10 @@ function startCountdown() {
 }
 
 /**
- * Handle answer submission
+ * Handle answer submission (now uses dialpad)
  */
 function handleSubmitAnswer() {
-  const answerInput = document.getElementById('answer-input');
-  const userAnswer = answerInput ? answerInput.value : '';
-  
-  if (!userAnswer) {
-    return; // Don't submit empty answer
-  }
-  
-  const result = validateAnswer(
-    userAnswer,
-    gameState.currentQuestion.firstFactor,
-    gameState.currentQuestion.secondFactor
-  );
-  
-  displayFeedback(result.message, result.correct);
-  updateProgressDisplay();
+  handleDialpadSubmit();
 }
 
 /**
@@ -385,14 +420,10 @@ function handleNextQuestion() {
 }
 
 /**
- * Handle clear button click
+ * Handle clear button click (now uses dialpad)
  */
 function handleClearClick() {
-  const answerInput = document.getElementById('answer-input');
-  if (answerInput) {
-    answerInput.value = '';
-    answerInput.focus();
-  }
+  handleDialpadClear();
 }
 
 /**
@@ -402,6 +433,7 @@ function handleRestartClick() {
   // Reset all state
   gameState.selectedFirstFactors = [];
   gameState.currentQuestion = { firstFactor: null, secondFactor: null, correctAnswer: null };
+  gameState.currentAnswer = '';
   gameState.combinationCounts = {};
   gameState.answeredCombinations = new Set();
   gameState.totalCombinations = 0;
@@ -519,10 +551,14 @@ function initApp() {
     restartButton.addEventListener('click', handleRestartClick);
   }
   
-  const answerInput = document.getElementById('answer-input');
-  if (answerInput) {
-    answerInput.addEventListener('keypress', handleAnswerKeyPress);
-  }
+  // Attach dialpad digit button listeners
+  const digitButtons = document.querySelectorAll('.digit-btn');
+  digitButtons.forEach(button => {
+    button.addEventListener('click', () => {
+      const digit = button.getAttribute('data-digit');
+      handleDialpadDigit(digit);
+    });
+  });
   
   // Enable/disable start button based on checkbox selection
   const checkboxes = document.querySelectorAll('.factor-checkbox input[type="checkbox"]');

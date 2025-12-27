@@ -85,22 +85,25 @@
         <span class="question-mark">？</span>
       </div>
       
-      <!-- Answer Input Area -->
+      <!-- Answer Display Area (read-only) -->
       <div class="answer-area">
-        <input 
-          type="number" 
-          id="answer-input" 
-          inputmode="numeric"
-          pattern="\d*"
-          placeholder="答え"
-          class="answer-input"
-        >
+        <div id="answer-display" class="answer-display"></div>
       </div>
       
-      <!-- Control Buttons -->
-      <div class="controls">
-        <button id="clear-button" class="btn btn-secondary">消す</button>
-        <button id="submit-button" class="btn btn-primary">進む</button>
+      <!-- Dialpad -->
+      <div id="dialpad" class="dialpad">
+        <button class="dialpad-btn digit-btn" data-digit="7">7</button>
+        <button class="dialpad-btn digit-btn" data-digit="8">8</button>
+        <button class="dialpad-btn digit-btn" data-digit="9">9</button>
+        <button class="dialpad-btn digit-btn" data-digit="4">4</button>
+        <button class="dialpad-btn digit-btn" data-digit="5">5</button>
+        <button class="dialpad-btn digit-btn" data-digit="6">6</button>
+        <button class="dialpad-btn digit-btn" data-digit="1">1</button>
+        <button class="dialpad-btn digit-btn" data-digit="2">2</button>
+        <button class="dialpad-btn digit-btn" data-digit="3">3</button>
+        <button id="clear-button" class="dialpad-btn control-btn">消す</button>
+        <button class="dialpad-btn digit-btn" data-digit="0">0</button>
+        <button id="submit-button" class="dialpad-btn control-btn control-btn-primary">進む</button>
       </div>
       
       <!-- Feedback Display -->
