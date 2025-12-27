@@ -469,62 +469,13 @@ function handleAnswerKeyPress(event) {
 }
 
 // ========================================
-// 6. Orientation Enforcer
-// ========================================
-
-/**
- * Check and update orientation enforcement
- */
-function checkOrientation() {
-  const orientationOverlay = document.getElementById('orientation-overlay');
-  const appContainer = document.getElementById('app-container');
-  
-  // Orientation is primarily handled by CSS media queries
-  // This function provides additional JavaScript support for dynamic updates
-  
-  const isPortrait = window.matchMedia('(orientation: portrait)').matches;
-  
-  if (orientationOverlay && appContainer) {
-    if (isPortrait) {
-      orientationOverlay.style.display = 'flex';
-      appContainer.style.display = 'none';
-    } else {
-      orientationOverlay.style.display = 'none';
-      appContainer.style.display = 'flex';
-    }
-  }
-}
-
-/**
- * Setup orientation change listener
- */
-function setupOrientationListener() {
-  // Use matchMedia for better performance
-  const mediaQuery = window.matchMedia('(orientation: portrait)');
-  
-  // Modern browsers
-  if (mediaQuery.addEventListener) {
-    mediaQuery.addEventListener('change', checkOrientation);
-  } else {
-    // Fallback for older browsers
-    mediaQuery.addListener(checkOrientation);
-  }
-  
-  // Check immediately on load
-  checkOrientation();
-}
-
-// ========================================
-// 7. Application Initialization
+// 6. Application Initialization
 // ========================================
 
 /**
  * Initialize the application
  */
 function initApp() {
-  // Setup orientation enforcement
-  setupOrientationListener();
-  
   // Attach event listeners
   const startButton = document.getElementById('start-button');
   if (startButton) {
@@ -586,7 +537,7 @@ function updateStartButtonState() {
 }
 
 // ========================================
-// 8. Start Application
+// 7. Start Application
 // ========================================
 
 // Initialize when DOM is ready
